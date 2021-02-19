@@ -1,0 +1,26 @@
+--- surf.c	2017-11-26 14:29:37.963786915 +0100
++++ surf.c	2017-11-26 14:20:36.757100476 +0100
+@@ -337,10 +338,11 @@ setup(void)
+ 	curconfig = defconfig;
+ 
+ 	/* dirs and files */
+-	cookiefile = buildfile(cookiefile);
+-	scriptfile = buildfile(scriptfile);
+-	cachedir   = buildpath(cachedir);
+-	certdir    = buildpath(certdir);
++	cookiefile  = buildfile(cookiefile);
++	historyfile = buildfile(historyfile);
++	scriptfile  = buildfile(scriptfile);
++	cachedir    = buildpath(cachedir);
++	certdir     = buildpath(certdir);
+ 
+ 	gdkkb = gdk_seat_get_keyboard(gdk_display_get_default_seat(gdpy));
+ 
+@@ -1463,6 +1482,7 @@ loadchanged(WebKitWebView *v, WebKitLoad
+ 		break;
+ 	case WEBKIT_LOAD_FINISHED:
+ 		seturiparameters(c, uri, loadfinished);
++		updatehistory(uri, c->title);
+ 		/* Disabled until we write some WebKitWebExtension for
+ 		 * manipulating the DOM directly.
+ 		evalscript(c, "document.documentElement.style.overflow = '%s'",
